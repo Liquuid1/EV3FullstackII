@@ -8,11 +8,9 @@ export const BlogList = ({ entradas }) => {
   }
 
   return (
-    <div className="row">
+    <div className="blog-list">
       {entradas.map((entrada) => (
-        <div key={entrada.id} className="col-12 col-md-6 col-lg-4 mb-4">
-          <BlogCard entrada={entrada} />
-        </div>
+        <BlogCard key={entrada.id} entrada={entrada} />
       ))}
     </div>
   );
