@@ -1,0 +1,194 @@
+/* Estilos coherentes con Admin.css y más resaltados para cada pedido */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.orders-section {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(245,252,255,0.8));
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(3, 103, 139, 0.06);
+  border: 1px solid rgba(160,216,240,0.6);
+}
+
+.orders-section h3 {
+  margin: 0 0 14px 0;
+  color: #004b6e;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.orders-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* Tarjeta del pedido */
+.order-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  background: linear-gradient(180deg, #ffffff, #f7fdff);
+  border-radius: 10px;
+  border: 1px solid #e1f4fb;
+  box-shadow: 0 4px 10px rgba(3,103,139,0.04);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  min-width: 0;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(3,103,139,0.08);
+}
+
+.order-details {
+  flex: 1;
+  min-width: 0; /* evita overflow en texto largo */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #03414a;
+}
+
+/* cabeceras y metadatos */
+.order-title {
+  color: #0077b6;
+  font-size: 1rem;
+  margin-right: 8px;
+}
+.order-number {
+  color: #005b8f;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.order-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: #0b5360;
+  font-size: 0.95rem;
+}
+
+/* filas y alineaciones */
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+/* estado con badge */
+.order-status em.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #05414a;
+  background: rgba(0,0,0,0.03);
+  min-width: 90px;
+  text-align: center;
+}
+
+/* colores específicos por estado */
+.order-status em.status.aprobado { background: rgba(39,174,96,0.12); color: #1e7d3a; }
+.order-status em.status.rechazado { background: rgba(231,76,60,0.08); color: #9b2b23; }
+.order-status em.status.pendiente { background: rgba(255,193,7,0.08); color: #7a5a00; }
+
+/* acciones (botones) */
+.order-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  min-width: 96px;
+  transition: transform 0.08s ease, opacity 0.12s ease;
+}
+
+.btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+.btn.approve {
+  background: linear-gradient(180deg, #27ae60, #1e874b);
+  color: white;
+}
+.btn.approve:hover:not(:disabled) { transform: translateY(-2px); }
+
+.btn.reject {
+  background: linear-gradient(180deg, #e74c3c, #c43a2a);
+  color: white;
+}
+.btn.reject:hover:not(:disabled) { transform: translateY(-2px); }
+
+/* mensajes y estado */
+.muted { color: #336b73; }
+.error { color: #b00020; font-weight: 600; }
+
+/* Detalles del pedido - nuevo estilo */
+.details-panel {
+  margin-top: 12px;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(250,255,255,0.95), rgba(245,252,255,0.95));
+  border-radius: 8px;
+  border: 1px solid rgba(200,230,240,0.6);
+  box-shadow: 0 4px 10px rgba(3,103,139,0.03);
+}
+
+.details-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(230,245,250,0.7);
+  align-items: center;
+}
+
+.detail-left, .detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #03414a;
+  font-size: 0.95rem;
+  min-width: 0;
+}
+
+.detail-line strong { color: #006a85; margin-right: 6px; }
+
+/* botón de ver detalles estilo */
+.btn.details {
+  background: linear-gradient(180deg, #0099a6, #00707a);
+  color: #fff;
+}
+.btn.details:hover:not(:disabled) { transform: translateY(-2px); }
+
+/* responsive */
+@media (max-width: 700px) {
+  .order-card { flex-direction: column; align-items: stretch; }
+  .order-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .order-actions { justify-content: flex-end; margin-top: 8px; }
+  .detail-item { flex-direction: column; align-items: flex-start; }
+  .order-actions { flex-wrap: wrap; gap: 6px; }
+}
