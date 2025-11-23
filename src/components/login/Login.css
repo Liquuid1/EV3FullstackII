@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.login-page {
+  background: linear-gradient(135deg, #e0f7fa, #d0fef0, #e6f9ff);
+  font-family: 'Inter', sans-serif;
+  color: #003c3c;
+  min-height: 100vh;
+  padding: 3rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-page h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #007f7f;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
+}
+
+.login-page p {
+  font-size: 1.1rem;
+  color: #005050;
+}
+
+.login-form {
+  max-width: 400px;
+  background-color: #eaf7ff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+}
+
+.login-form label {
+  font-weight: 600;
+  color: #007f7f;
+}
+
+.login-form input {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #a0e0e0;
+  border-radius: 12px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #003c3c;
+  margin-bottom: 1rem;
+  width: 100%;
+  transition: box-shadow 0.3s ease;
+}
+
+.login-form input:focus {
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+  outline: none;
+}
+
+.login-form .btn {
+  background: linear-gradient(to right, #00c6c6, #00e6a6);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.login-form .btn:hover {
+  background: #009999;
+  transform: scale(1.05);
+}
+
+.login-form a {
+  color: #007f7f;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-form a:hover {
+  text-decoration: underline;
+  color: #00bfbf;
+}

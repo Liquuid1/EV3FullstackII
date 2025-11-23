@@ -1,0 +1,121 @@
+.hero-section {
+  background: radial-gradient(circle at top left, #0a2a4d, #021526);
+  width: 100%;
+  /* dejar que la sección se ajuste verticalmente al contenido; quitar min-height forzada */
+  min-height: auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.hero-content {
+  background: rgba(173, 216, 230, 0.08); /* azul claro transparente */
+  border: 1px solid rgba(173, 216, 230, 0.2);
+  border-radius: 16px;
+  /* padding vertical reducido para ajustar la altura al contenido */
+  padding-block: 10px;
+  padding-inline: clamp(18px, 4vw, 48px);
+  /* limitar el ancho del recuadro para que no ocupe casi toda la página */
+  max-width: 980px;
+  width: 90%;
+  margin: 0 auto;
+  color: #eaf6ff;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.hero-title {
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero-subtitle {
+  /* Mostrar en una sola línea; si falta espacio se truncará con puntos suspensivos */
+  font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  margin-bottom: 16px;
+  color: #cceeff;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+}
+
+.hero-button {
+  background: linear-gradient(135deg, #00ff99, #00cc66);
+  color: #003322;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 255, 153, 0.4);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.hero-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #00cc66, #00ff99);
+  box-shadow: 0 8px 24px rgba(0, 255, 153, 0.6);
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ajustes responsivos */
+@media (max-width: 900px) {
+  .hero-section {
+    /* ajustar verticalmente al contenido en tablet */
+    min-height: auto;
+    padding: 12px 12px;
+  }
+  .hero-content {
+    max-width: 860px;
+    width: calc(100% - 32px);
+    /* padding vertical reducido y padding horizontal moderado */
+    padding-block: 8px;
+    padding-inline: clamp(14px, 5vw, 36px);
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    /* en móviles también permitir ajuste vertical al contenido */
+    min-height: auto;
+    padding: 8px 10px;
+  }
+  .hero-content {
+    border-radius: 12px;
+    padding-block: 6px;
+    padding-inline: 12px;
+    width: calc(100% - 24px);
+  }
+  /* en móviles reducir un poco el título */
+  .hero-title {
+    font-size: clamp(1.4rem, 6vw, 2rem);
+  }
+  /* mantener el subtítulo en una sola línea con ellipsis */
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+}

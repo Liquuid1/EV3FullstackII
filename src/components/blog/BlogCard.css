@@ -1,0 +1,51 @@
+.blog-card {
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #c0c0c0;
+  overflow: hidden;
+}
+
+.blog-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.blog-card .card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.blog-card .card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.blog-card .card-text {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.blog-card .btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  background: linear-gradient(to right, #dcdcdc, #ffffff);
+  border: 1px solid #aaa;
+  color: #000;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.blog-card .btn:hover {
+  background: #000;
+  color: #fff;
+}

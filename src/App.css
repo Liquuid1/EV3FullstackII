@@ -1,0 +1,19 @@
+/* ...existing code... */
+html, body, #root {
+  height: 100%;
+}
+
+body, #root {
+  margin: 0;
+  padding: 0;
+}
+
+.app-root {
+  min-height: 100vh; /* ocupa al menos la altura de la ventana */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1; /* ocupa el espacio restante entre el header y el footer */
+}

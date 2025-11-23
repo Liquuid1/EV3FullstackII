@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.admin-welcome {
+  text-align: center;
+  padding: 48px 0 32px 0;
+  color: #005b8f;
+  background: linear-gradient(120deg, #e0f7fa 60%, #b3e4f7 100%);
+  border-radius: 16px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 12px rgba(0, 180, 216, 0.08);
+}
+.admin-welcome h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #0077b6;
+}
+.admin-welcome p {
+  font-size: 1.15rem;
+  color: #0096c7;
+  margin-bottom: 18px;
+}
+
+
+.admin-btn-main {
+  background: linear-gradient(to right, #00c6c6, #00e6a6);
+  color: #fff !important;
+  border: none;
+  border-radius: 24px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+.admin-btn-main:hover, .admin-btn-main.active {
+  background: #009999;
+  transform: scale(1.05);
+}
+
+.admin-panel {
+  /* Ligeramente más ancho (+100px) y responsive */
+  width: calc(100% - 48px);
+  max-width: 1200px;
+  margin: 32px auto;
+  background: linear-gradient(180deg, #d9f4ff 0%, #b3e4f7 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  padding: 28px 28px;
+  font-family: 'Inter', 'Segoe UI', 'Frutiger', sans-serif;
+  border: 1px solid #a0d8f0;
+  box-sizing: border-box;
+}
+.admin-panel h2 {
+  text-align: center;
+  margin-bottom: 32px;
+  color: #005b8f;
+  text-shadow: 0 1px 1px #ffffff;
+}
+.admin-section {
+  margin-bottom: 40px;
+}
+.admin-section h3 {
+  color: #004b6e;
+  margin-bottom: 16px;
+}
+.admin-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.admin-form input {
+  padding: 8px 10px;
+  border: 1px solid #a0d8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f7fbfd;
+  color: #004b6e;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.admin-form input:focus {
+  outline: 2px solid #00b4d8;
+  border-color: #00b4d8;
+}
+.admin-form button {
+  background: linear-gradient(180deg, #00b4d8 0%, #0096c7 100%);
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.10);
+  transition: background 0.2s, transform 0.2s;
+}
+.admin-form button:hover {
+  background: linear-gradient(180deg, #0096c7 0%, #0077b6 100%);
+  transform: scale(1.05);
+}
+.admin-list {
+  list-style: none;
+  padding: 0;
+}
+.admin-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f7fbfd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border: 1px solid #b3e4f7;
+  color: #004b6e;
+  width: 100%;
+  box-sizing: border-box;
+  /* permitir que los elementos flex reduzcan su ancho cuando es necesario */
+  min-width: 0;
+}
+/* Encabezado de la lista de usuarios */
+.admin-list-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #0077b6;
+  font-weight: 600;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  /* Evita que el encabezado desplazado interfiera con clicks en elementos debajo */
+  pointer-events: none;
+}
+.admin-list-header .user-col {
+  padding: 6px 8px;
+  /* Permitir interacciones en elementos internos si alguna vez las tuviera */
+  pointer-events: auto;
+}
+.admin-list-header .user-col.user-name,
+.admin-list .user-col.user-name { flex: 0 0 28%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.admin-list-header .user-col.user-email,
+.admin-list .user-col.user-email { flex: 1 0 calc(45% - 80px); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.admin-list .user-col.user-role { flex: 0 0 14%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;  }
+/* Centrar solo el título 'Rol' para que quede sobre el placeholder '—' */
+.admin-list-header .user-col.user-role { text-align:left; transform: translateX(-205px); }
+.admin-list .user-actions { margin-left: auto; display:flex; gap:8px; }
+/* Asegura que los botones se mantengan dentro del recuadro y no provoquen overflow */
+.admin-list button { flex: 0 0 auto; }
+/* Alineación del encabezado para la columna de acciones */
+.admin-list-header .user-actions { margin-left: auto; display:flex; justify-content:flex-end; gap:8px; }
+.admin-list input {
+  width: 120px;
+  border: 1px solid #a0d8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #004b6e;
+}
+.admin-list button {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-left: 4px;
+  transition: background 0.2s;
+}
+
+/* Responsividad: ajustar padding y flex-basis en pantallas pequeñas */
+@media (max-width: 800px) {
+  .admin-panel { padding: 20px 14px; }
+  .admin-list .user-col.user-name { flex-basis: 35%; }
+  /* reducir el ancho del email también en pantallas medianas */
+  .admin-list .user-col.user-email { flex-basis: calc(45% - 60px); }
+  .admin-list .user-col.user-role { flex-basis: 18%; }
+}
+
+@media (max-width: 520px) {
+  .admin-list { display: block; }
+  .admin-list li { display: flex; flex-direction: column; align-items: stretch; }
+  .admin-list-header { display: none; }
+  .admin-list .user-col { white-space: normal; overflow: visible; }
+  .admin-list .user-actions { margin-left: 0; margin-top: 8px; justify-content: flex-end; }
+}
+.admin-list button:hover {
+  background: #c0392b;
+}
+.admin-list .edit-btn {
+  background: linear-gradient(180deg, #00b4d8 0%, #0096c7 100%);
+}
+.admin-list .edit-btn:hover {
+  background: linear-gradient(180deg, #0096c7 0%, #0077b6 100%);
+}
+.admin-list .save-btn {
+  background: #27ae60;
+}
+.admin-list .save-btn:hover {
+  background: #1e874b;
+}
+.admin-list .cancel-btn {
+  background: #aaa;
+}
+.admin-list .cancel-btn:hover {
+  background: #888;
+}

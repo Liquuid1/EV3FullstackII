@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  height: 100%;
+}
+body {
+  background: linear-gradient(135deg, #e0f7fa, #d0fef0, #e6f9ff);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+}
+
+
+.contacto-page {
+  background: linear-gradient(135deg, #e0f7fa, #d0fef0, #e6f9ff);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  font-family: 'Inter', sans-serif;
+  padding: 3rem 1rem;
+  min-height: 100vh;
+  color: #003c3c;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.contacto-page::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: rgba(0, 255, 255, 0.2);
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.contacto-page h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #007f7f;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.contacto-page p {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #005050;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-form {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #a0e0e0;
+  border-radius: 12px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #003c3c;
+  transition: box-shadow 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+  outline: none;
+}
+
+.contact-form button {
+  background: linear-gradient(to right, #00c6c6, #00e6a6);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.contact-form button:hover {
+  background: #009999;
+  transform: scale(1.05);
+}
+
+.contact-details {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-details h4,
+.contact-details h5 {
+  color: #007f7f;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.contact-details p,
+.contact-details a {
+  color: #004f4f;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-details a:hover {
+  text-decoration: underline;
+  color: #00bfbf;
+}

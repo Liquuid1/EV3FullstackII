@@ -1,0 +1,291 @@
+.product-preview-section {
+  background: linear-gradient(180deg, #e0f7ff 0%, #c0e4f9 100%);
+  padding: 10px 20px;
+  text-align: center;
+  font-family: 'Segoe UI', 'Frutiger', sans-serif;
+  color: #003b5c;
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #005b8f;
+  text-shadow: 0 1px 1px green;
+}
+
+.product-grid {
+  position: relative;
+  /* reducir bottom margin porque ahora los indicadores son elementos separados */
+  margin-bottom: 12px;
+  padding: 0 20px;
+}
+
+/* Carousel layout */
+.carousel {
+  width: 100%;
+}
+
+.carousel-wrap {
+  width: 100%;
+  overflow: hidden; /* hide off-screen items */
+}
+
+.carousel-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  will-change: transform;
+  /* smoother, cloud-like transition */
+  transition: transform 600ms cubic-bezier(0.22, 0.9, 0.28, 1);
+  padding: 12px 0;
+}
+
+.carousel-controls {
+  display: flex;
+  gap: 8px;
+  z-index: 5;
+}
+
+.carousel-controls.top {
+  position: relative;
+  justify-content: center; /* center controls */
+  margin-bottom: 8px;
+}
+
+.carousel-btn {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.carousel-btn[disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Indicators (dots) */
+.carousel-indicators {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.carousel-indicators .indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #cfcfcf; /* inactive - a bit darker */
+  padding: 0;
+  cursor: pointer;
+  transition: transform 220ms ease, background 220ms ease;
+}
+.carousel-indicators .indicator.active {
+  background: #ffffff; /* active - white */
+  transform: scale(1.12);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.product-card {
+  background: #f0fcff;
+  border: 1px solid #a0d8f0;
+  border-radius: 12px;
+  /* Reducir tamaño vertical: menos padding y usar layout flex para empujar precio al fondo */
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex: 0 0 auto; /* prevent automatic shrinking; width set inline from JS */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* asegura que el precio quede pegado al fondo sin cambiar el flujo visual */
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #005b8f;
+  margin-bottom: 8px;
+}
+/* Imagen del producto: ocupar completamente el wrapper sin recortar
+   - width/height 100% para llenar el contenedor
+   - object-fit: contain para no recortar la imagen (mantiene proporción)
+   - display:block para evitar espacios inline inesperados */
+.product-image {
+  width: 100%;
+  height: 100%;
+  /* Ajuste solicitado: cubrir toda la casilla (puede recortar bordes) */
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+}
+
+.product-price {
+  font-size: 1rem;
+  color: #0077b6;
+}
+.product-image {
+  /* regla duplicada consolidada arriba; dejar aquí por compatibilidad si fuera necesario */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-button {
+  background: linear-gradient(180deg, #00b4d8 0%, #0096c7 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.product-button:hover {
+  background: linear-gradient(180deg, #0096c7 0%, #0077b6 100%);
+}
+
+/* ------------------------------------------------------------- */
+/* BLOQUE: estilos para los nuevos botones (oscuro tipo hero / claro) */
+/* - .product-buttons: contenedor que alinea los botones */
+/* - .product-button.dark: botón con tono oscuro similar al hero-section */
+/* - .product-button.light: botón más claro acorde a esta sección */
+/* ------------------------------------------------------------- */
+.product-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.product-button.dark {
+  /* tono oscuro que recuerda al fondo del hero */
+  background: linear-gradient(180deg, #021526 0%, #0a2a4d 100%);
+  color: #eaf6ff;
+  box-shadow: 0 6px 18px rgba(2,21,38,0.45);
+}
+.product-button.dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(2,21,38,0.6);
+}
+
+.product-button.light {
+  /* variante más clara, dentro del lenguaje visual del preview */
+  background: linear-gradient(180deg, #dff7ff 0%, #c0eaf8 100%);
+  color: #003b5c;
+  box-shadow: 0 3px 8px rgba(0, 91, 143, 0.12);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.product-button.light:hover {
+  transform: translateY(-2px);
+}
+
+/* Ajustes para los indicadores ahora colocados debajo del carrusel */
+.carousel-indicators {
+  /* Indicadores como bloque separado (hermano de .product-grid) */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0 12px 0; /* separación mayor para evitar superposición con grid */
+  gap: 10px;
+  position: relative;
+  z-index: 1; /* asegurarse que no flote encima del carrusel */
+}
+
+.carousel-indicators .indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #cfcfcf;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+.carousel-indicators .indicator:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0,123,255,0.12);
+}
+.carousel-indicators .indicator.active {
+  /* El indicador activo se eleva ligeramente y se enfatiza visualmente */
+  background: #ffffff;
+  transform: translateY(-6px) scale(1.2);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  border-color: rgba(0,0,0,0.12);
+}
+
+
+.product-image-wrapper {
+  width: 100%;
+  /* reducir altura para tarjetas más compactas */
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0fcff;
+  border-radius: 8px;
+  overflow: hidden;
+  /* quitar padding interno para que la imagen pueda llenar toda la casilla */
+  padding: 0;
+  box-sizing: border-box;
+  /* mantener un borde sutil exterior si se desea, no afecta el area interior */
+  border: 1px solid rgba(0, 91, 143, 0.06);
+}
+
+.product-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #005b8f;
+  margin: 8px 0 6px 0; /* reducir separación vertical para tarjeta compacta */
+}
+
+.product-price {
+  font-size: 1rem;
+  color: #0077b6;
+  /* Empujar el precio hacia el borde inferior y marcarlo con una línea sutil encima */
+  margin: 6px 0 0 0;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0,0,0,0.04);
+}
+
+
+@media (max-width: 480px) {
+  .product-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .carousel-track {
+    padding: 12px 0;
+    gap: 18px;
+  }
+  .carousel-controls.top {
+    margin-bottom: 6px;
+  }
+}
+
+/* Force single visible card on small screens and ensure others are off-screen */
+@media (max-width: 600px) {
+  .product-card {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  .carousel-track {
+    gap: 12px;
+  }
+}

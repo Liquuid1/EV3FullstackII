@@ -1,0 +1,19 @@
+.filtro-bar {
+  margin-bottom: 1rem;
+}
+
+.filtro-btn {
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  transition: background-color 0.2s ease;
+}
+
+.filtro-btn:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.filtro-btn.active {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+

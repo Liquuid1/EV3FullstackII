@@ -1,0 +1,55 @@
+.product-card {
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.card-img-top {
+  object-fit: cover;
+  height: 300px;
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+}
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.product-price {
+  padding: 0 1rem;
+  font-weight: 700;
+  margin-top: 8px;
+  color: #111;
+}
+
+.product-card-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-left: 0;
+  padding-right: 0;
+}
+
+.product-card-controls .form-select {
+  width: 110px;
+  min-width: 90px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.product-card-controls .btn {
+  white-space: nowrap;
+}
+
+/* avoid touching all .btn globally to prevent layout shifts elsewhere */

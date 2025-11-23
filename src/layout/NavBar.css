@@ -1,0 +1,68 @@
+/* Navbar base */
+.navbar {
+  background: linear-gradient(180deg, #d9f4ff 0%, #b3e4f7 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid #a0d8f0;
+  font-family: 'Segoe UI', 'Frutiger', sans-serif;
+}
+
+/* Marca y logo */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: #005b8f !important;
+  text-shadow: 0 1px 1px #ffffff;
+}
+
+/* Links de navegación */
+.nav-link {
+  color: #004b6e !important;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.4);
+  color: #0077b6 !important;
+}
+
+/* Botones personalizados */
+.navbar .btn {
+  background: linear-gradient(180deg, #00b4d8 0%, #0096c7 100%);
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin: 0 !important;
+}
+
+.navbar .btn:hover {
+  background: linear-gradient(180deg, #0096c7 0%, #0077b6 100%);
+  transform: scale(1.05);
+}
+
+/* Botón hamburguesa */
+.navbar-toggler {
+  border: none;
+  background: transparent;
+}
+
+.navbar-toggler-icon {
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+/* Responsive ajustes */
+@media (max-width: 992px) {
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .navbar .btn {
+    width: 100%;
+  }
+}
