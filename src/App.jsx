@@ -10,6 +10,7 @@ import { Footer } from './layout/Footer'
 import { Login } from './components/login/Login'
 import { Registro } from './components/registro/Registro'
 import { Carrito } from './components/carrito/carrito'
+import { Checkout} from './components/carrito/checkout'
 import { MisOrdenes } from './pages/MisOrdenes'
 
 import { ProductoDetalle } from './components/productsDetail/productoDetalle'
@@ -33,6 +34,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/registro' element={<Registro />} />
           <Route path='/carrito' element={<Carrito />} />
+          <Route path='/checkout/:orderId' element={<Checkout />} />
           <Route path='/mis-ordenes' element={<MisOrdenes />} />
           <Route path="/producto/:id" element={<ProductoDetalle />} />
 
