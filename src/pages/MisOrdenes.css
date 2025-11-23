@@ -1,0 +1,25 @@
+.mis-ordenes .order-card{
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.mis-ordenes .order-product{
+  padding: 8px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.mis-ordenes .order-product img{
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.mis-ordenes .orders-list .order-card:last-child .order-product{
+  border-bottom: none;
+}
+
+.mis-ordenes .badge{
+  font-weight: 600;
+}
