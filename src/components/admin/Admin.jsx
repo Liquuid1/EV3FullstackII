@@ -5,6 +5,7 @@ import { useAuth } from '../../context/context.jsx';
 import { useAdminData } from '../../hooks/useAdminData';
 import ProductSection from './ProductSection';
 import UserSection from './UserSection';
+import OrdersSection from './OrdersSection'; // agregado
 
 export const Admin = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export const Admin = () => {
       <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: 32 }}>
         <button className={`admin-btn-main${seccion === 'productos' ? ' active' : ''}`} onClick={() => setSeccion('productos')}>Productos</button>
         <button className={`admin-btn-main${seccion === 'usuarios' ? ' active' : ''}`} onClick={() => setSeccion('usuarios')}>Usuarios</button>
+        <button className={`admin-btn-main${seccion === 'pedidos' ? ' active' : ''}`} onClick={() => setSeccion('pedidos')}>Pedidos</button> {/* agregado */}
       </div>
 
       {seccion === '' && (
@@ -35,6 +37,8 @@ export const Admin = () => {
       {seccion === 'productos' && <ProductSection admin={admin} />}
 
       {seccion === 'usuarios' && <UserSection admin={admin} />}
+
+      {seccion === 'pedidos' && <OrdersSection admin={admin} />} {/* agregado */}
     </div>
   );
 };
