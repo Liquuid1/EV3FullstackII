@@ -10,6 +10,7 @@ import { Footer } from './layout/Footer'
 import { Login } from './components/login/Login'
 import { Registro } from './components/registro/Registro'
 import { Carrito } from './components/carrito/carrito'
+import { MisOrdenes } from './pages/MisOrdenes'
 
 import { ProductoDetalle } from './components/productsDetail/productoDetalle'
 import { Admin } from './components/admin/Admin'
@@ -32,6 +33,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/registro' element={<Registro />} />
           <Route path='/carrito' element={<Carrito />} />
+          <Route path='/mis-ordenes' element={<MisOrdenes />} />
           <Route path="/producto/:id" element={<ProductoDetalle />} />
 
           <Route path="/admin" element={<Admin />} />
