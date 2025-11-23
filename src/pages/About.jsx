@@ -6,13 +6,21 @@ import './About.css';
 
 export const About = () => {
   return (
-    <div className="about-page container-fluid py-5">
+    <div className="contact-page container py-5">
       <h1 className="text-center mb-4">NOSOTROS</h1>
       <p className="text-center mb-5">Más que una tienda, somos cultura urbana en movimiento.</p>
 
-      <MisionVision />
-      <Historia />
-      <Equipo />
+      <section className="about-section mb-4">
+        <MisionVision />
+      </section>
+
+      <section className="about-section mb-4">
+        <Historia />
+      </section>
+
+      <section className="about-section">
+        <Equipo />
+      </section>
     </div>
   );
 };

@@ -36,7 +36,7 @@ export const Blog = () => {
   }, []);
 
   return (
-    <div className="container-fluid blog-page">
+    <div className="container py-3 blog-page">
       <h1 className="text-center mb-4">Blog</h1>
       <p className="text-center mb-5">Historias, lanzamientos y cultura sneaker.</p>
 
