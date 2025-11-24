@@ -67,8 +67,7 @@ export const NavBar = () => {
             {isLogged && isAdmin && (
               <>
                 <button className="btn btn-outline-danger" onClick={() => { setIsOpen(false); handleLogout(); }}>Logout</button>
-                <Link className="btn btn-outline-success" to="/carrito" onClick={() => setIsOpen(false)}>Carrito</Link>
-                <Link className="btn btn-outline-primary" to="/mis-ordenes" onClick={() => setIsOpen(false)}>Mis Pedidos</Link>
+                
                 <Link className="btn btn-outline-primary" to="/admin" onClick={() => setIsOpen(false)}>Admin Panel</Link>
               </>
             )}

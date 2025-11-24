@@ -75,14 +75,18 @@ const ProductForm = ({
       });
       setFiles([]);
 
-      // NOTIFICACIÓN AL PADRE: desactivada para evitar doble creación
-      // if (onSubmit) {
-      //   try { onSubmit(finalProduct); } catch (e) { /* noop */ }
-      // }
+      // NOTIFICACIÓN AL PADRE: informar que se creó el producto
+      if (onSubmit) {
+        try { onSubmit({ action: 'created', product: finalProduct }); } catch (e) { /* noop */ }
+      }
 
-      // Si prefieres notificar al padre sin que intente crear de nuevo,
-      // reemplaza la llamada anterior por:
-      // if (onSubmit) { try { onSubmit({ action: 'created', product: finalProduct }); } catch(e){} }
+      // También emitir un evento global para que otras vistas (p.ej. Products) se actualicen
+      try {
+        const ev = new CustomEvent('productosUpdated', { detail: finalProduct });
+        window.dispatchEvent(ev);
+      } catch (e) {
+        // ignore
+      }
     } catch (err) {
       console.error(err);
       alert(err.message || 'Ocurrió un error');
