@@ -100,13 +100,13 @@ const ProductForm = ({
     <div className="admin-form admin-form--with-preview" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
       {/* Columna izquierda: preview en líneas, sin recuadro blanco */}
       <aside className="admin-form-preview">
-        <div className="admin-preview-line"><span className="admin-preview-label">SKU:</span><span className="admin-preview-value">{form.sku_base}</span></div>
-        <div className="admin-preview-line"><span className="admin-preview-label">Título:</span><span className="admin-preview-value">{form.title}</span></div>
-        <div className="admin-preview-line"><span className="admin-preview-label">Slug:</span><span className="admin-preview-value">{form.slug}</span></div>
-        <div className="admin-preview-line"><span className="admin-preview-label">Descripción:</span><span className="admin-preview-value">{form.description}</span></div>
-        <div className="admin-preview-line"><span className="admin-preview-label">Marca:</span><span className="admin-preview-value">{form.brand}</span></div>
-        <div className="admin-preview-line"><span className="admin-preview-label">Base:</span><span className="admin-preview-value">{Number(form.base_price) ? `$${form.base_price}` : ''}</span></div>
-        <div className="admin-preview-line"><span className="admin-preview-label">Imagen:</span><span className="admin-preview-value">{files && files.length > 0 ? files[0].name : ''}</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">SKU:</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">Título:</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">Slug:</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">Descripción:</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">Marca:</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">Precio:</span></div>
+        <div className="admin-preview-line"><span className="admin-preview-label">Imagen:</span></div>
       </aside>
 
       {/* Columna derecha: formulario de ingreso (mantiene las clases y comportamiento existentes) */}
