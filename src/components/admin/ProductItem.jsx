@@ -69,31 +69,57 @@ const ProductItem = ({ product, onDelete, onSave }) => {
 
   return (
     <li>
-      {editing ? (
-        <div style={{display:'flex',flexDirection:'column',gap:8}}>
-          <input value={p.sku_base} onChange={e => setP({ ...p, sku_base: e.target.value })} />
-          <input value={p.title} onChange={e => setP({ ...p, title: e.target.value })} />
-          <input value={p.slug} onChange={e => setP({ ...p, slug: e.target.value })} />
-          <input value={p.description} onChange={e => setP({ ...p, description: e.target.value })} />
-          <input value={p.brand} onChange={e => setP({ ...p, brand: e.target.value })} />
-          <input type="number" value={p.base_price} onChange={e => setP({ ...p, base_price: Number(e.target.value) })} />
-          <div style={{display:'flex', gap:8, marginTop:8}}>
-            <button className="save-btn" disabled={isProcessing} onClick={handleSave}>
-              {isProcessing ? 'Guardando...' : 'Guardar'}
-            </button>
-            <button className="cancel-btn" disabled={isProcessing} onClick={() => setEditing(false)}>Cancelar</button>
-          </div>
+      <div style={{display:'flex', gap:16, alignItems:'flex-start'}}>
+        {/* Columna izquierda: información persistente (no se borra al editar) */}
+        <div style={{minWidth:220, maxWidth:320, padding:10, background:'#f8f9fa', borderRadius:6, fontSize:13}}>
+          <div style={{marginBottom:8}}><strong>SKU:</strong> {original.sku_base}</div>
+          <div style={{marginBottom:8}}><strong>Título:</strong> {original.title}</div>
+          <div style={{marginBottom:8}}><strong>Slug:</strong> {original.slug}</div>
+          <div style={{marginBottom:8}}><strong>Descripción:</strong> <div style={{color:'#444'}}>{original.description}</div></div>
+          <div style={{marginBottom:8}}><strong>Marca:</strong> {original.brand}</div>
+          <div style={{marginBottom:8}}><strong>Base:</strong> {Number(original.base_price) ? `$${original.base_price}` : 'info adicional'}</div>
         </div>
-      ) : (
-        <>
-          <b>{product.title}</b> - {product.brand} - ${product.base_price} <br/>
-          <span style={{fontSize:'0.95em',color:'#0077b6'}}>{product.description}</span>
-          <div style={{display:'flex', gap:8, marginTop:8, marginLeft:'auto'}}>
-            <button onClick={handleDelete} disabled={isProcessing}>Eliminar</button>
-            <button className="edit-btn" onClick={() => setEditing(true)} disabled={isProcessing}>Editar</button>
-          </div>
-        </>
-      )}
+
+        {/* Columna derecha: edición o vista compacta */}
+        <div style={{flex:1}}>
+          {editing ? (
+            <div style={{display:'flex',flexDirection:'column',gap:8}}>
+              <label>SKU</label>
+              <input value={p.sku_base} onChange={e => setP({ ...p, sku_base: e.target.value })} />
+              <label>Título</label>
+              <input value={p.title} onChange={e => setP({ ...p, title: e.target.value })} />
+              <label>Slug</label>
+              <input value={p.slug} onChange={e => setP({ ...p, slug: e.target.value })} />
+              <label>Descripción</label>
+              <textarea value={p.description} onChange={e => setP({ ...p, description: e.target.value })} rows={4} />
+              <label>Marca</label>
+              <input value={p.brand} onChange={e => setP({ ...p, brand: e.target.value })} />
+              <label>Base (precio)</label>
+              <input type="number" value={p.base_price} onChange={e => setP({ ...p, base_price: Number(e.target.value) })} />
+              <div style={{display:'flex', gap:8, marginTop:8}}>
+                <button className="save-btn" disabled={isProcessing} onClick={handleSave}>
+                  {isProcessing ? 'Guardando...' : 'Guardar'}
+                </button>
+                <button className="cancel-btn" disabled={isProcessing} onClick={() => setEditing(false)}>Cancelar</button>
+              </div>
+            </div>
+          ) : (
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
+              <div>
+                <div style={{fontSize:16, fontWeight:700}}>{product.title}</div>
+                <div style={{color:'#666', marginTop:6}}>{product.description}</div>
+                <div style={{marginTop:8}}><strong>Marca:</strong> {product.brand}</div>
+                <div style={{marginTop:4}}><strong>Precio:</strong> {Number(product.base_price) ? `$${product.base_price}` : 'info adicional'}</div>
+              </div>
+
+              <div style={{display:'flex', gap:8}}>
+                <button onClick={handleDelete} disabled={isProcessing}>Eliminar</button>
+                <button className="edit-btn" onClick={() => setEditing(true)} disabled={isProcessing}>Editar</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </li>
   );
 };

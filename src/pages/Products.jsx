@@ -54,6 +54,42 @@ export const Products = () => {
     fetchProductos();
   }, []);
 
+  // Escuchar eventos globales de productos creados en el admin
+  useEffect(() => {
+    const handler = (e) => {
+      try {
+        const p = e?.detail;
+        if (!p) return;
+        setProductos(prev => {
+          if (!Array.isArray(prev)) return [p];
+          // evitar duplicados si ya está
+          if (prev.some(x => x.id === p.id || x._id === p._id)) return prev;
+          return [p, ...prev];
+        });
+      } catch (err) {
+        // noop
+      }
+    };
+    window.addEventListener('productosUpdated', handler);
+    return () => window.removeEventListener('productosUpdated', handler);
+  }, []);
+
+  // Derivar categorías a partir de los productos para asegurar consistencia
+  const categoriasDerivadas = React.useMemo(() => {
+    try {
+      const arr = Array.isArray(productos) ? productos : [];
+      const map = new Map();
+      arr.forEach(p => {
+        const id = p.category_id ?? p.category ?? p.categoria ?? 'sin-categoria';
+        const name = p.category_name ?? p.category_label ?? p.name ?? id;
+        if (!map.has(id)) map.set(id, { id, name });
+      });
+      return Array.from(map.values());
+    } catch (e) {
+      return [];
+    }
+  }, [productos]);
+
   const agregarAlCarrito = (producto, talla) => {
     if (!talla) return alert('Selecciona una talla');
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -105,7 +141,7 @@ export const Products = () => {
           <Search setBusqueda={setBusqueda} />
         </div>
       </div>
-      <FiltroBar setFiltro={setFiltro} filtroActivo={filtro} />
+      <FiltroBar setFiltro={setFiltro} filtroActivo={filtro} categorias={categoriasDerivadas} />
 
       {loading ? (
         <p className="text-center">Cargando productos...</p>

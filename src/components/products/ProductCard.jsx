@@ -9,7 +9,7 @@ export const ProductCard = ({ producto, agregarAlCarrito }) => {
     ? producto.talla
     : [38,39,40,41,42,43,44,45];
 
-  const imagenSrc = producto?.imagenes && Array.isArray(producto.imagenes) && producto.imagenes.length > 0
+  const imagenSrc = producto?.imagenes.url && Array.isArray(producto.imagenes) && producto.imagenes.length > 0
     ? producto.imagenes[0]?.url
     : (producto?.image?.url || producto?.imagen || null);
 
