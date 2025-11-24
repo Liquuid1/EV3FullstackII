@@ -50,10 +50,61 @@
 .navbar-toggler {
   border: none;
   background: transparent;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px;
+  cursor: pointer;
+  z-index: 1000;
 }
 
 .navbar-toggler-icon {
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  position: relative;
+  width: 26px;
+  height: 2px;
+  background-color: #004b6e;
+  border-radius: 2px;
+  display: inline-block;
+}
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #004b6e;
+  border-radius: 2px;
+}
+.navbar-toggler-icon::before { top: -8px; }
+.navbar-toggler-icon::after { top: 8px; }
+
+/* Collapse behavior without Bootstrap JS */
+.collapse {
+  display: none;
+}
+.navbar-collapse.show {
+  display: block;
+}
+
+/* Layout links vertically when menu is shown on small screens */
+@media (max-width: 992px) {
+  .navbar-collapse.show .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    padding: 12px 0;
+  }
+}
+
+/* On larger viewports always show the collapse region as flex */
+@media (min-width: 992px) {
+  .collapse {
+    display: flex !important;
+  }
+  .navbar .btn {
+    width: auto;
+  }
 }
 
 /* Responsive ajustes */

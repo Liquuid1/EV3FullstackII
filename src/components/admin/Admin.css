@@ -102,19 +102,22 @@
   padding: 0;
 }
 .admin-list li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  /* Convertir cada usuario en una "tarjeta" tipo pedido: fila superior con nombre + acciones,
+     fila inferior con correo y rol. Usamos grid para mantener control del layout sin tocar JSX. */
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 6px 12px;
   background: #f7fbfd;
   border-radius: 8px;
   margin-bottom: 10px;
-  padding: 10px 12px;
+  padding: 12px;
   border: 1px solid #b3e4f7;
   color: #004b6e;
   width: 100%;
   box-sizing: border-box;
-  /* permitir que los elementos flex reduzcan su ancho cuando es necesario */
   min-width: 0;
+  align-items: center;
 }
 /* Encabezado de la lista de usuarios */
 .admin-list-header {
@@ -135,13 +138,13 @@
   pointer-events: auto;
 }
 .admin-list-header .user-col.user-name,
-.admin-list .user-col.user-name { flex: 0 0 28%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.admin-list .user-col.user-name { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
 .admin-list-header .user-col.user-email,
-.admin-list .user-col.user-email { flex: 1 0 calc(45% - 80px); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.admin-list .user-col.user-role { flex: 0 0 14%; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;  }
+.admin-list .user-col.user-email { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color: #2f6b88; }
+.admin-list .user-col.user-role { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color: #006080; font-size:0.95rem; }
 /* Centrar solo el título 'Rol' para que quede sobre el placeholder '—' */
 .admin-list-header .user-col.user-role { text-align:left; transform: translateX(-205px); }
-.admin-list .user-actions { margin-left: auto; display:flex; gap:8px; }
+.admin-list .user-actions { display:flex; gap:8px; grid-column: 2 / 3; grid-row: 1; justify-self: end; align-items:center; }
 /* Asegura que los botones se mantengan dentro del recuadro y no provoquen overflow */
 .admin-list button { flex: 0 0 auto; }
 /* Alineación del encabezado para la columna de acciones */
@@ -168,18 +171,20 @@
 /* Responsividad: ajustar padding y flex-basis en pantallas pequeñas */
 @media (max-width: 800px) {
   .admin-panel { padding: 20px 14px; }
-  .admin-list .user-col.user-name { flex-basis: 35%; }
-  /* reducir el ancho del email también en pantallas medianas */
-  .admin-list .user-col.user-email { flex-basis: calc(45% - 60px); }
-  .admin-list .user-col.user-role { flex-basis: 18%; }
+  .admin-list .user-col.user-name { font-size: 1.01rem; }
+  .admin-list .user-col.user-email { font-size: 0.95rem; }
+  .admin-list .user-col.user-role { font-size: 0.95rem; }
 }
 
 @media (max-width: 520px) {
   .admin-list { display: block; }
-  .admin-list li { display: flex; flex-direction: column; align-items: stretch; }
+  /* En móvil apilamos la tarjeta similar a MisOrdenes: nombre + estado/acciones arriba, correo debajo */
+  .admin-list li { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; gap: 6px 10px; }
   .admin-list-header { display: none; }
   .admin-list .user-col { white-space: normal; overflow: visible; }
-  .admin-list .user-actions { margin-left: 0; margin-top: 8px; justify-content: flex-end; }
+  .admin-list .user-actions { grid-column: 2 / 3; grid-row: 1; justify-self: end; margin-top: 0; }
+  .admin-list .user-col.user-email { grid-column: 1 / 3; grid-row: 2; }
+  .admin-list .user-col.user-role { grid-column: 2 / 3; grid-row: 2; justify-self: end; color:#0b5f73; }
 }
 .admin-list button:hover {
   background: #c0392b;
@@ -201,4 +206,167 @@
 }
 .admin-list .cancel-btn:hover {
   background: #888;
+}
+
+/* Preview lateral del formulario (mover desde inline) */
+.admin-form--with-preview {
+  display: flex;
+  /* Gap reducido para acercar visualmente columnas */
+  gap: 8px;
+  align-items: flex-start;
+  /* Variables para ajustar layout rápidamente:
+     --admin-preview-width: ancho del panel preview (ajusta hasta que la Descripción quede completa)
+     --admin-input-shift: mueve la columna de inputs (negativo => izquierda, positivo => derecha)
+  */
+  --admin-preview-width: 160px; /* reducido aún más para acercar inputs */
+  --admin-input-shift: -32px; /* desplazar inputs más a la izquierda */
+}
+
+.admin-form-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* usar variable para controlar el ancho del preview desde un solo lugar */
+  min-width: calc(var(--admin-preview-width));
+  max-width: calc(var(--admin-preview-width));
+}
+
+.admin-preview-line {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px; /* 10px adicionales hacia abajo por petición */
+  box-sizing: border-box;
+}
+
+/* Ajuste específico: reducir a 6px el espacio debajo de Descripción, Marca y Base
+   (orden en el preview: 1-SKU, 2-Título, 3-Slug, 4-Descripción, 5-Marca, 6-Base) */
+.admin-form-preview .admin-preview-line:nth-child(4),
+.admin-form-preview .admin-preview-line:nth-child(5),
+.admin-form-preview .admin-preview-line:nth-child(6) {
+  margin-bottom: 6px;
+}
+
+.admin-preview-label {
+  width: 90px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.admin-preview-value {
+  flex: 1 1 auto;
+  color: #004b6e;
+}
+
+/* Small helpers for the file input counters shown in ProductForm */
+.file-count { color: #004b6e; font-size: 0.9rem; }
+.file-count--desktop { display: inline; }
+.file-count--mobile { display: none; }
+
+/* Estilo para el botón que abre el selector de archivos (reemplaza texto nativo del input)
+  Diseñado para parecerse a los inputs existentes */
+.file-btn {
+  display: inline-block;
+  padding: 8px 10px;
+  border: 1px solid #a0d8f0;
+  border-radius: 8px;
+  background: #f7fbfd;
+  color: #004b6e;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.file-btn:hover { outline: 2px solid #00b4d8; }
+
+/* Ocultar el input nativo para evitar que el navegador muestre
+  "Ningún archivo seleccionado" — usamos el botón y nuestro contador */
+.hidden-file-input { display: none; }
+
+/* Desplaza la columna de inputs para acercarla al preview (usa --admin-input-shift)
+   Aplica a los campos dentro del formulario con la clase admin-form__fields */
+.admin-form__fields {
+  /* Centrar la columna de inputs y limitar su ancho para que no sobresalga del panel */
+  margin-left: 0 !important;
+  margin-right: 0;
+  box-sizing: border-box;
+  max-width: calc(100% - var(--admin-preview-width) - 32px);
+  margin: 0 auto;
+}
+
+/* Forzar ancho de inputs del formulario a 1/3 del ancho de la ventana (viewport)
+   y asegurar comportamiento responsive en pantallas pequeñas */
+.admin-form__fields input {
+  width: calc(33.333vw + 15px); /* 1/3 del viewport width + 15px extra */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Alinear ancho del botón de archivos y del botón principal del formulario
+   para que coincidan con los inputs establecidos */
+.admin-form__fields .file-btn,
+.admin-form__fields > button {
+  width: calc(33.333vw + 15px);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+  .admin-form__fields input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .admin-form__fields .file-btn,
+  .admin-form__fields > button {
+    width: 100%;
+  }
+}
+
+/* Asegurar que en móvil (donde el preview se oculta) el contenedor ocupe 100% y se centre */
+@media (max-width: 800px) {
+  .admin-form__fields { max-width: 100%; padding: 0 8px; }
+}
+
+@media (max-width: 800px) {
+  .admin-form--with-preview { flex-direction: column; }
+  /* Ocultar el preview lateral en modo responsive para liberar espacio */
+  .admin-form-preview { display: none; }
+}
+
+/* Mostrar el contador corto en móvil y ocultar el largo */
+@media (max-width: 800px) {
+  .file-count--desktop { display: none; }
+  .file-count--mobile { display: inline; }
+}
+
+/* Apilar los botones principales en vertical en pantallas pequeñas */
+@media (max-width: 800px) {
+  /* container for admin buttons: stack vertically and align left */
+  .admin-actions {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px;
+    padding-left: 8px;
+  }
+  .admin-actions .admin-btn-main {
+    display: block;
+    width: auto;
+    margin: 0;
+    text-align: left;
+  }
+}
+
+/* Helper para alinear el texto del preview con el contenido interno de los inputs
+   Ajusta `--admin-preview-shift` (positivo => mueve a la derecha, negativo => a la izquierda)
+   Úsalo en development o en devtools para encontrar el offset que coincida con tus inputs. */
+.admin-form--with-preview {
+  --admin-preview-shift: 0px; /* desactivar desplazamiento adicional del valor preview (usar --admin-input-shift para mover inputs) */
+}
+
+.admin-preview-value {
+  /* desplaza horizontalmente el valor del preview para alinearlo con el texto del input */
+  transform: translateX(var(--admin-preview-shift));
 }

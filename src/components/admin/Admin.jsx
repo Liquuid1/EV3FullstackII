@@ -20,7 +20,7 @@ export const Admin = () => {
         <h2>Panel de Administracion</h2>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: 32 }}>
+      <div className="admin-actions" style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: 32 }}>
         <button className={`admin-btn-main${seccion === 'productos' ? ' active' : ''}`} onClick={() => setSeccion('productos')}>Productos</button>
         <button className={`admin-btn-main${seccion === 'usuarios' ? ' active' : ''}`} onClick={() => setSeccion('usuarios')}>Usuarios</button>
         <button className={`admin-btn-main${seccion === 'pedidos' ? ' active' : ''}`} onClick={() => setSeccion('pedidos')}>Pedidos</button> {/* agregado */}
