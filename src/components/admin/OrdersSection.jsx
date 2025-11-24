@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './OrdersSection.css';
+import localOrders from '../../utils/localOrders';
 
 const API_BASE = 'https://x8ki-letl-twmt.n7.xano.io/api:AZPo4EA2';
 
@@ -61,6 +62,30 @@ const OrdersSection = () => {
       setOrders(prev =>
         prev.map(o => (o.id === orderId ? (updated && typeof updated === 'object' ? { ...o, ...updated } : { ...o, status }) : o))
       );
+      // Actualizar copias locales solo si el admin aprobó o rechazó (si no hace nada, queda 'pending')
+      if (status === 'aprobado' || status === 'rechazado') {
+        try {
+          const localList = localOrders.getOrders();
+          if (Array.isArray(localList) && localList.length > 0) {
+            const localEstado = status === 'aprobado' ? 'finalizado' : 'rechazado';
+            const updatedLocal = localList.map(x => (String(x.id) === String(orderId) ? { ...x, estado: localEstado, status: localEstado } : x));
+            localOrders.saveOrders(updatedLocal);
+          }
+        } catch (e) {
+          // ignore
+        }
+        try {
+          const legacy = JSON.parse(localStorage.getItem('ordenes') || '[]');
+          if (Array.isArray(legacy) && legacy.length > 0) {
+            const localEstado = status === 'aprobado' ? 'finalizado' : 'rechazado';
+            const updatedLegacy = legacy.map(x => (String(x.id) === String(orderId) ? { ...x, estado: localEstado, status: localEstado } : x));
+            localStorage.setItem('ordenes', JSON.stringify(updatedLegacy));
+            try { window.dispatchEvent(new CustomEvent('ordenesUpdated')); } catch (e) {}
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
       // si hay detalles ya cargados, también actualiza su estado localmente
       setDetailsMap(prev => {
         if (!prev[orderId]) return prev;
