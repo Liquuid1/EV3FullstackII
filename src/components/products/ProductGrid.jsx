@@ -10,11 +10,11 @@ export const ProductGrid = ({ productos, agregarAlCarrito }) => {
   return (
     <div className="container my-4">
       <div className="row">
-          {productos.map((producto) => (
-            <div key={producto.id} className="col-8 col-md-6 col-lg-4 mb-4 mx-auto">
-              <ProductCard producto={producto} agregarAlCarrito={agregarAlCarrito} />
-            </div>
-          ))}
+        {productos.map((producto) => (
+          <div key={producto.id} className="col-12 col-md-6 col-lg-4 mb-4">
+            <ProductCard producto={producto} agregarAlCarrito={agregarAlCarrito} />
+          </div>
+        ))}
       </div>
     </div>
   );

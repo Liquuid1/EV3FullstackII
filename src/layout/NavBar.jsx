@@ -51,12 +51,15 @@ export const NavBar = () => {
                 <Link className="btn btn-outline-primary" to="/login">Login</Link>
                 <Link className="btn btn-outline-secondary" to="/registro">Registrarse</Link>
                 <Link className="btn btn-outline-success" to="/carrito">Carrito</Link>
+                <Link className="btn btn-outline-primary" to="/mis-ordenes">Mis Pedidos</Link>
               </>
             )}
 
             {isLogged && isAdmin && (
               <>
                 <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
+                <Link className="btn btn-outline-success" to="/carrito">Carrito</Link>
+                <Link className="btn btn-outline-primary" to="/mis-ordenes">Mis Pedidos</Link>
                 <Link className="btn btn-outline-primary" to="/admin">Admin Panel</Link>
               </>
             )}
