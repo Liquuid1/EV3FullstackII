@@ -60,7 +60,6 @@ export const NavBar = () => {
                 <Link className="btn btn-outline-primary" to="/login" onClick={() => setIsOpen(false)}>Login</Link>
                 <Link className="btn btn-outline-secondary" to="/registro" onClick={() => setIsOpen(false)}>Registrarse</Link>
                 <Link className="btn btn-outline-success" to="/carrito" onClick={() => setIsOpen(false)}>Carrito</Link>
-                <Link className="btn btn-outline-primary" to="/mis-ordenes" onClick={() => setIsOpen(false)}>Mis Pedidos</Link>
               </>
             )}
 
