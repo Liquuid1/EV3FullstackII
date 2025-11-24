@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/context.jsx'
 import logo from '../assets/logo.jpg'
@@ -7,6 +7,8 @@ import './NavBar.css'
 export const NavBar = () => {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+
+  const [isOpen, setIsOpen] = useState(false)
 
   const isLogged = !!user
   const isAdmin = user?.role_id === 7
@@ -28,11 +30,18 @@ export const NavBar = () => {
           SNKR HOOD
         </Link>
 
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          className="navbar-toggler"
+          type="button"
+          aria-controls="navbarContent"
+          aria-expanded={isOpen ? 'true' : 'false'}
+          aria-label="Toggle navigation"
+          onClick={() => setIsOpen(prev => !prev)}
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarContent">
+        <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarContent">
           {/* Centro: siempre mostrar mismos enlaces que cuando no hay sesión */}
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item"><Link className="nav-link" to="/">Inicio</Link></li>
@@ -48,27 +57,27 @@ export const NavBar = () => {
             {/* Derecha: dependiendo del estado de sesión y rol */}
             {!isLogged && (
               <>
-                <Link className="btn btn-outline-primary" to="/login">Login</Link>
-                <Link className="btn btn-outline-secondary" to="/registro">Registrarse</Link>
-                <Link className="btn btn-outline-success" to="/carrito">Carrito</Link>
-                <Link className="btn btn-outline-primary" to="/mis-ordenes">Mis Pedidos</Link>
+                <Link className="btn btn-outline-primary" to="/login" onClick={() => setIsOpen(false)}>Login</Link>
+                <Link className="btn btn-outline-secondary" to="/registro" onClick={() => setIsOpen(false)}>Registrarse</Link>
+                <Link className="btn btn-outline-success" to="/carrito" onClick={() => setIsOpen(false)}>Carrito</Link>
+                <Link className="btn btn-outline-primary" to="/mis-ordenes" onClick={() => setIsOpen(false)}>Mis Pedidos</Link>
               </>
             )}
 
             {isLogged && isAdmin && (
               <>
-                <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
-                <Link className="btn btn-outline-success" to="/carrito">Carrito</Link>
-                <Link className="btn btn-outline-primary" to="/mis-ordenes">Mis Pedidos</Link>
-                <Link className="btn btn-outline-primary" to="/admin">Admin Panel</Link>
+                <button className="btn btn-outline-danger" onClick={() => { setIsOpen(false); handleLogout(); }}>Logout</button>
+                <Link className="btn btn-outline-success" to="/carrito" onClick={() => setIsOpen(false)}>Carrito</Link>
+                <Link className="btn btn-outline-primary" to="/mis-ordenes" onClick={() => setIsOpen(false)}>Mis Pedidos</Link>
+                <Link className="btn btn-outline-primary" to="/admin" onClick={() => setIsOpen(false)}>Admin Panel</Link>
               </>
             )}
 
             {isLogged && !isAdmin && (
               <>
-                <Link className="btn btn-outline-success" to="/carrito">Carrito</Link>
-                <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
-                <Link className="btn btn-outline-primary" to="/mis-ordenes">Mis Pedidos</Link>
+                <Link className="btn btn-outline-success" to="/carrito" onClick={() => setIsOpen(false)}>Carrito</Link>
+                <button className="btn btn-outline-danger" onClick={() => { setIsOpen(false); handleLogout(); }}>Logout</button>
+                <Link className="btn btn-outline-primary" to="/mis-ordenes" onClick={() => setIsOpen(false)}>Mis Pedidos</Link>
               </>
             )}
           </div>
