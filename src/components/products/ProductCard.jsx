@@ -9,15 +9,13 @@ export const ProductCard = ({ producto, agregarAlCarrito }) => {
     ? producto.talla
     : [38,39,40,41,42,43,44,45];
 
-  const imagenSrc = producto?.imagenes.url && Array.isArray(producto.imagenes) && producto.imagenes.length > 0
-    ? producto.imagenes[0]?.url
-    : (producto?.image?.url || producto?.imagen || null);
+  const imagenSrc = producto?.imagenes.url;
 
   return (
     <div className="card product-card h-200 shadow-sm">
       <Link to={`/producto/${producto.id}`} className="text-decoration-none text-dark">
         <ImageWithFallback
-          src={imagenSrc}
+          src={producto.imagenes[0]?.url || '/images/placeholder.png'}
           alt={producto.title}
           className="card-img-top"
         />

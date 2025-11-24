@@ -1,25 +1,223 @@
-.mis-ordenes .order-card{
-  border: 1px solid rgba(0,0,0,0.05);
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.mis-ordenes {
+  background: linear-gradient(135deg, #e0f7fa, #d0fef0, #e6f9ff);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  font-family: 'Inter', sans-serif;
+  padding: 3rem 1rem;
+  min-height: 60vh;
+  color: #003c3c;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.mis-ordenes::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 260px;
+  height: 260px;
+  background: rgba(0, 255, 255, 0.18);
+  border-radius: 50%;
+  filter: blur(72px);
+  z-index: 0;
+}
+
+.mis-ordenes h1 {
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: #007f7f;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.28);
+  position: relative;
+  z-index: 1;
+}
+
+/* Contenedor de lista */
+.orders-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Tarjeta de pedido (estilo translúcido similar a otras páginas) */
+.mis-ordenes .order-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 127, 127, 0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 84px;
+  align-items: stretch;
+}
+
+.mis-ordenes .order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(0, 127, 127, 0.09);
+}
+
+/* Header fila (pedido + estado) */
+.mis-ordenes .order-card .d-flex:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Meta información del pedido */
+.order-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: #305656;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* Totales y acciones */
+.mis-ordenes .order-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Alinear la caja derecha con total y botón */
+.mis-ordenes .text-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+/* Mejor visibilidad para el total */
+.mis-ordenes .h5 {
+  color: #074a4a;
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Estado del pedido (badge) */
+.mis-ordenes .badge {
+  font-weight: 600;
+  background: linear-gradient(180deg,#ffffff,#f3ffff);
+  color: #0f6b6b;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+}
+
+/* Botones - garantizar contraste y visibles */
+.mis-ordenes .btn {
+  font-size: 0.88rem;
+  padding: 0.45rem 0.75rem;
   border-radius: 8px;
-  background: #fff;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #ffffff;
+  color: #0f6b6b;
+  transition: background 120ms ease, color 120ms ease, transform 120ms;
+  box-shadow: 0 4px 12px rgba(16,128,120,0.06);
 }
 
-.mis-ordenes .order-product{
-  padding: 8px 0;
-  border-bottom: 1px dashed #eee;
+.mis-ordenes .btn:hover {
+  transform: translateY(-2px);
 }
 
-.mis-ordenes .order-product img{
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 6px;
+/* Outline success específico */
+.mis-ordenes .btn-outline-success {
+  background: transparent;
+  color: #0f8c65;
+  border: 1px solid rgba(15,140,101,0.12);
+}
+.mis-ordenes .btn-outline-success:hover {
+  background: #0f8c65;
+  color: #fff;
+  border-color: #0f8c65;
 }
 
-.mis-ordenes .orders-list .order-card:last-child .order-product{
+/* Primary small */
+.mis-ordenes .btn-primary {
+  background: linear-gradient(180deg,#0f8c65,#08694f);
+  color: #fff;
+  border: none;
+}
+.mis-ordenes .btn-sm {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+}
+
+/* Ajuste texto pequeño */
+.mis-ordenes .text-muted {
+  color: #557575;
+  font-size: 0.90rem;
+}
+
+/* Productos dentro del pedido (si existieran) */
+.mis-ordenes .order-product {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.04);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.mis-ordenes .order-product:last-child {
   border-bottom: none;
 }
 
-.mis-ordenes .badge{
-  font-weight: 600;
+.mis-ordenes .order-product img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+/* Responsive: en pantallas grandes mostrar layout con más espacio */
+@media (min-width: 768px) {
+  .orders-list {
+    grid-template-columns: 1fr;
+  }
+
+  .order-meta {
+    gap: 2rem;
+  }
+
+  .mis-ordenes h1 {
+    font-size: 2.6rem;
+  }
+
+  /* Mostrar la fila de totales más compacta */
+  .mis-ordenes .order-actions {
+    align-items: center;
+  }
+}
+
+/* Pequeños ajustes para asegurar contraste en fondos claros */
+.mis-ordenes p,
+.mis-ordenes .order-meta div,
+.mis-ordenes strong {
+  color: #0b4f4f;
 }
