@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as AuthModule from '../../context/context';
 import { createOrder, createOrderItem } from '../../api/orders';
-import localOrders from '../../utils/localOrders';
 import './carrito.css';
 
 export const Carrito = () => {
@@ -106,20 +105,12 @@ export const Carrito = () => {
         user_id: userId,
       };
 
-      const token = localStorage.getItem('token') || localStorage.getItem('authToken') || null;
-      console.log('Enviando createOrder con payload:', orderPayload);
-      const orderResp = await createOrder(orderPayload, token).catch(err => {
-        console.warn('createOrder fallo:', err);
-        return null;
-      });
-      console.log('Respuesta createOrder:', orderResp);
-      const serverOrderId = orderResp?.id ?? orderResp?.orderId ?? orderResp?._id ?? orderResp?.order_id;
-      const serverCreated = !!serverOrderId;
-      const orderId = serverCreated ? serverOrderId : `local-${Date.now()}`;
+      const orderResp = await createOrder(orderPayload);
+      const orderId = orderResp?.id ?? orderResp?.orderId ?? orderResp?._id;
+      if (!orderId) throw new Error('No se recibió orderId del servidor');
 
-      // crear items (normalizar campos) SOLO si la orden fue creada en el servidor
-      const itemPromises = serverCreated
-        ? carrito.map(item => {
+      // crear items (normalizar campos)
+      const itemPromises = carrito.map(item => {
         console.log('Creando item para orderId', orderId, 'con datos:', {
           order_id: orderId,
           product_id: item.id,
@@ -137,60 +128,17 @@ export const Carrito = () => {
           order_id: orderId,
           product_id: item.id,
           talla: item.talla,
-        }, token);
-        })
-        : [];
+        });
+      });
 
-      await Promise.all(itemPromises).catch(err => console.warn('Error creando items:', err));
-
-      // --- guardar pedido localmente para que aparezca en MisOrdenes aunque backend no lo liste ---
-      try {
-        const stored = JSON.parse(localStorage.getItem('ordenes')) || JSON.parse(localStorage.getItem('orders')) || [];
-        const productosForStore = carrito.map(it => ({
-          id: it.id,
-          title: it.title,
-          talla: it.talla,
-          cantidad: it.cantidad || 1,
-          base_price: it.base_price || it.price || 0,
-          image: it.image || null,
-        }));
-        const orderForStore = {
-          id: orderId || `local-${Date.now()}`,
-          fecha: new Date().toISOString(),
-          productos: productosForStore,
-          // al terminar el pago, el pedido queda PENDIENTE hasta que el admin lo revise
-          estado: 'pendiente',
-          status: 'pendiente',
-          total: totalToSend,
-          user_id: userId || null,
-        };
-        // guardar en helper local (mis_pedidos) para que MisOrdenes lo lea inmediatamente
-        try {
-          localOrders.addOrder(orderForStore);
-        } catch (e) {
-          // ignore
-        }
-        // mantener compatibilidad con clave legacy 'ordenes'
-        stored.unshift(orderForStore);
-        localStorage.setItem('ordenes', JSON.stringify(stored));
-        console.log('Orden guardada localmente en ordenes, id=', orderForStore.id);
-      } catch (e) {
-        console.warn('No se pudo persistir orden localmente:', e);
-      }
-          try {
-            // notificar al resto de la app que hay nuevas ordenes
-            const ev = new CustomEvent('ordenesUpdated', { detail: { orderId: orderId } });
-            window.dispatchEvent(ev);
-          } catch (e) {
-            // ignore
-          }
+      await Promise.all(itemPromises);
 
       // limpieza y redirección
       localStorage.removeItem('carrito');
       setCarrito([]);
       setIsProcessing(false);
-      // ir a Mis Ordenes para que el usuario vea su pedido inmediatamente
-      navigate('/mis-ordenes');
+      // pasar orderId también via state para asegurar que Checkout pueda leerlo
+      navigate(`/checkout/${orderId}`, { state: { orderId } });
     } catch (err) {
       console.error(err);
       setError(err?.message || 'Error procesando pedido');
@@ -212,7 +160,7 @@ export const Carrito = () => {
             const subtotal = price * qty;
             return (
               <div key={key} className="carrito-item">
-                <img src={item.image?.url ?? item.image ?? 'https://via.placeholder.com/150'} alt={item.title ?? 'producto'} />
+                <img src={item.image?.url ?? '/placeholder.png'} alt={item.title ?? 'producto'} />
                 <div className="carrito-detalle">
                   <h5>{item.title}</h5>
                   <p>Talla: {String(item.talla ?? '—')}</p>

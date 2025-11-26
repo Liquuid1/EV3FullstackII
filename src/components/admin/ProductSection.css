@@ -1,0 +1,214 @@
+/* Forzar mayor especificidad y uso de !important para evitar overrides */
+.product-section.product-section--force,
+.product-section {
+    background: linear-gradient(180deg, #e6fbf9 0%, #e8f7ff 100%) !important;
+    border-radius: 12px !important;
+    padding: 26px !important;
+    box-shadow: 0 10px 30px rgba(6,55,57,0.06) !important;
+    color: #04363a !important;
+    font-family: "Inter", "Roboto", sans-serif !important;
+}
+
+/* Cabecera / toolbar */
+.product-section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+/* Búsqueda */
+.product-section.product-section--force .product-search-form,
+.product-section .product-search-form {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 18px !important;
+}
+
+.product-section.product-section--force .product-search-form input[type="text"],
+.product-section .product-search-form input[type="text"] {
+    padding: 10px 14px !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(6,55,57,0.08) !important;
+    background: rgba(255,255,255,0.95) !important;
+    min-width: 340px !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6) !important;
+    color: #033b3f !important;
+}
+
+/* Reuso de clases de botón coherentes con carrito/checkout */
+.product-section.product-section--force .btn,
+.product-section .btn {
+    padding: 9px 14px !important;
+    border-radius: 24px !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 18px rgba(3,59,63,0.06) !important;
+}
+
+/* Gradiente principal (buscar / acciones positivas) */
+.product-section.product-section--force .btn-primary,
+.product-section .btn-primary {
+    background: linear-gradient(to right, #00c6c6, #00e6a6) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 22px rgba(0,198,198,0.12) !important;
+}
+
+/* Botón secundario oscuro (si se requiere) */
+.btn-secondary {
+    background: #007f7f;
+    color: #fff;
+}
+
+/* Botón outline (limpiar / eliminar visual) */
+.product-section.product-section--force .btn-outline,
+.product-section .btn-outline {
+    background: transparent !important;
+    color: #06373a !important;
+    border: 1px solid rgba(6,55,57,0.06) !important;
+}
+
+.product-section.product-section--force .btn-outline-danger,
+.product-section .btn-outline-danger {
+    background: transparent !important;
+    color: #f04a36 !important;
+    border: 1px solid rgba(240,74,54,0.12) !important;
+}
+
+/* Lista de productos: tarjetas limpias */
+.product-section.product-section--force .products-list,
+.product-section .products-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+}
+
+/* Item de producto: tarjeta dividida en dos columnas */
+.product-section.product-section--force .product-item,
+.product-section .product-item {
+    display: grid !important;
+    grid-template-columns: 340px 1fr 180px !important;
+    gap: 16px !important;
+    align-items: center !important;
+    background: rgba(255,255,255,0.92) !important;
+    border-radius: 12px !important;
+    padding: 16px !important;
+    border: 1px solid rgba(6,55,57,0.04) !important;
+    transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+}
+
+.product-section.product-section--force .product-item:hover,
+.product-section .product-item:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 14px 36px rgba(3,59,63,0.06) !important;
+}
+
+/* Columna izquierda: detalles extensos (sku, descripcion) */
+.product-section.product-section--force .product-info-left,
+.product-section .product-info-left {
+    background: rgba(246,253,251,0.9) !important;
+    padding: 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(6,55,57,0.03) !important;
+    font-size: 0.95rem !important;
+    color: #044b4a !important;
+}
+
+.product-info-left .meta-row {
+    margin-bottom: 8px;
+}
+
+.product-info-left strong {
+    display: inline-block;
+    width: 72px;
+    color: #0b4b57;
+}
+
+/* Columna central: título y descripción corta */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.product-info .title {
+    font-weight: 800;
+    color: #06373a;
+    font-size: 1.05rem;
+}
+
+.product-info .short-desc {
+    color: rgba(6,55,57,0.78);
+}
+
+/* Precio / marca */
+.product-info .meta {
+    color: rgba(6,55,57,0.7);
+    font-weight: 600;
+}
+
+/* Acciones: alineadas a la derecha */
+.product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+/* Botones de acción: usa clases .btn, .btn-primary y .btn-outline-danger */
+.product-actions .btn {
+    min-width: 110px;
+    padding: 9px 14px;
+    border-radius: 24px;
+}
+
+/* Editar (usar primary) */
+.product-actions .btn.edit {
+    /* preferir .btn-primary en JSX, pero mantenemos soporte */
+    background: linear-gradient(to right, #00c6c6, #00e6a6);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(0,198,198,0.12);
+}
+
+/* Eliminar: outline rojo */
+.product-actions .btn.delete,
+.product-actions .btn-outline-danger {
+    background: transparent;
+    color: #f04a36;
+    border: 1px solid rgba(240,74,54,0.12);
+}
+
+/* Estados disabled */
+.product-actions .btn:disabled,
+.product-search-form button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mensaje vacío */
+.products-list > .empty {
+    padding: 18px;
+    color: rgba(6,55,57,0.7);
+    font-style: italic;
+}
+
+/* Responsive: en pantallas pequeñas apilar columnas */
+@media (max-width: 980px) {
+    .product-section.product-section--force .product-item,
+    .product-section .product-item {
+        grid-template-columns: 1fr !important;
+    }
+    .product-section.product-section--force .product-actions,
+    .product-section .product-actions {
+        flex-direction: row !important;
+        justify-content: flex-end !important;
+        width: 100% !important;
+    }
+}
