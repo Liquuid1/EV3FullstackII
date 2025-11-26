@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './checkout.css';
-import resolveImageUrl from '../../utils/image';
 
 const API_BASE = 'https://x8ki-letl-twmt.n7.xano.io/api:AZPo4EA2';
 
@@ -70,7 +69,7 @@ export default function Checkout() {
           return {
             ...it,
             title: title || `Producto ${productId ?? it.id ?? ''}`,
-            imageUrl: resolveImageUrl(imageUrl || url) || '/placeholder.png',
+            imageUrl: imageUrl || '/placeholder.png',
           };
         }));
 
@@ -136,7 +135,7 @@ export default function Checkout() {
                   const qty = toNumber(item.qty ?? item.cantidad ?? 1);
                   const unit = toNumber(item.unit_price ?? item.precio_unitario ?? item.base_price ?? 0);
                   const line = toNumber(item.line_total ?? (qty * unit));
-                  const imageSrc = resolveImageUrl(item.imageUrl) || '/placeholder.png';
+                  const imageSrc = item.imageUrl || '/placeholder.png';
                   return (
                     <li key={item.id ?? item.product_id ?? idx} className="summary-item">
                       <img src={imageSrc} alt={title} />

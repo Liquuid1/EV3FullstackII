@@ -10,6 +10,9 @@ const OrdersSection = () => {
   const [updatingId, setUpdatingId] = useState(null);
   const [error, setError] = useState(null);
 
+  // búsqueda
+  const [searchTerm, setSearchTerm] = useState('');
+
   // detalles por pedido
   const [detailsMap, setDetailsMap] = useState({}); // { orderId: [items] }
   const [detailsLoadingId, setDetailsLoadingId] = useState(null);
@@ -134,97 +137,119 @@ const OrdersSection = () => {
     }
   };
 
+  // filtro en memoria por order_number o por id (coincidencia parcial)
+  const normalizedQuery = (searchTerm || '').trim().toLowerCase();
+  const filteredOrders = normalizedQuery
+    ? orders.filter(o => {
+        const num = String(o.order_number ?? '').toLowerCase();
+        const id = String(o.id ?? '').toLowerCase();
+        return num.includes(normalizedQuery) || id.includes(normalizedQuery);
+      })
+    : orders;
+
   return (
     <div className="orders-section">
       <h3>Pedidos</h3>
+
+      <div className="orders-search">
+        <label htmlFor="orders-search-input" className="search-label">Buscar pedidos (por número de pedido o id)</label>
+         <input
+          id="orders-search-input"
+           type="text"
+           placeholder="Buscar por número de pedido o id..."
+           value={searchTerm}
+           onChange={e => setSearchTerm(e.target.value)}
+         />
+       </div>
 
       {loading && <p className="muted">Cargando pedidos...</p>}
       {error && <p className="error">{error}</p>}
 
       {!loading && orders.length === 0 && <p className="muted">No hay pedidos disponibles.</p>}
+      {!loading && orders.length > 0 && filteredOrders.length === 0 && <p className="muted">No se encontraron pedidos para la búsqueda.</p>}
 
-      {!loading && orders.length > 0 && (
+      {!loading && filteredOrders.length > 0 && (
         <ul className="orders-list">
-          {orders.map(order => {
-            const isDetailsOpen = !!openDetails[order.id];
-            const details = detailsMap[order.id] || [];
-            const detailsLoading = detailsLoadingId === order.id;
-            const detailsError = detailsErrorMap[order.id] ?? null;
+          {filteredOrders.map(order => {
+             const isDetailsOpen = !!openDetails[order.id];
+             const details = detailsMap[order.id] || [];
+             const detailsLoading = detailsLoadingId === order.id;
+             const detailsError = detailsErrorMap[order.id] ?? null;
 
-            return (
-              <li key={order.id} className="order-card">
-                <div className="order-details">
-                  <div className="order-row">
-                    <strong className="order-title">Pedido #{order.id}</strong>
-                    <span className="order-number">{order.order_number ? `#${order.order_number}` : ''}</span>
-                  </div>
-                  <div className="order-meta">
-                    <span>Creado: <time>{order.created_at ?? '—'}</time></span>
-                    <span>Total: <strong>${order.total_amount ?? order.subtotal ?? 0}</strong></span>
-                    <span>Envío: ${order.shipping_cost ?? 0}</span>
-                    <span>Método: {order.payment_method ?? '—'}</span>
-                  </div>
-                  <div className="order-row">
-                    <div className="order-status">Estado: <em className={`status ${String(order.status ?? 'pendiente').toLowerCase()}`}>{order.status ?? 'pendiente'}</em></div>
-                    <div className="order-user">Usuario ID: {order.user_id ?? '—'}</div>
-                  </div>
+             return (
+               <li key={order.id} className="order-card">
+                 <div className="order-details">
+                   <div className="order-row">
+                     <strong className="order-title">Pedido #{order.id}</strong>
+                     <span className="order-number">{order.order_number ? `#${order.order_number}` : ''}</span>
+                   </div>
+                   <div className="order-meta">
+                     <span>Creado: <time>{order.created_at ?? '—'}</time></span>
+                     <span>Total: <strong>${order.total_amount ?? order.subtotal ?? 0}</strong></span>
+                     <span>Envío: ${order.shipping_cost ?? 0}</span>
+                     <span>Método: {order.payment_method ?? '—'}</span>
+                   </div>
+                   <div className="order-row">
+                     <div className="order-status">Estado: <em className={`status ${String(order.status ?? 'pendiente').toLowerCase()}`}>{order.status ?? 'pendiente'}</em></div>
+                     <div className="order-user">Usuario ID: {order.user_id ?? '—'}</div>
+                   </div>
 
-                  {isDetailsOpen && (
-                    <div className="details-panel">
-                      {detailsLoading && <p className="muted">Cargando detalles...</p>}
-                      {detailsError && <p className="error">{detailsError}</p>}
-                      {!detailsLoading && !detailsError && details.length === 0 && <p className="muted">No hay productos asociados a este pedido.</p>}
-                      {!detailsLoading && details.length > 0 && (
-                        <ul className="details-list">
-                          {details.map(item => (
-                            <li key={item.id} className="detail-item">
-                              <div className="detail-left">
-                                <div className="detail-line"><strong>Producto ID:</strong> {item.product_id}</div>
-                                <div className="detail-line"><strong>Talla:</strong> {String(item.talla ?? '—')}</div>
-                              </div>
-                              <div className="detail-right">
-                                <div className="detail-line"><strong>Cantidad:</strong> {item.qty}</div>
-                                <div className="detail-line"><strong>Precio unitario:</strong> ${item.unit_price}</div>
-                                <div className="detail-line"><strong>Total línea:</strong> ${item.line_total}</div>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  )}
-                </div>
+                   {isDetailsOpen && (
+                     <div className="details-panel">
+                       {detailsLoading && <p className="muted">Cargando detalles...</p>}
+                       {detailsError && <p className="error">{detailsError}</p>}
+                       {!detailsLoading && !detailsError && details.length === 0 && <p className="muted">No hay productos asociados a este pedido.</p>}
+                       {!detailsLoading && details.length > 0 && (
+                         <ul className="details-list">
+                           {details.map(item => (
+                             <li key={item.id} className="detail-item">
+                               <div className="detail-left">
+                                 <div className="detail-line"><strong>Producto ID:</strong> {item.product_id}</div>
+                                 <div className="detail-line"><strong>Talla:</strong> {String(item.talla ?? '—')}</div>
+                               </div>
+                               <div className="detail-right">
+                                 <div className="detail-line"><strong>Cantidad:</strong> {item.qty}</div>
+                                 <div className="detail-line"><strong>Precio unitario:</strong> ${item.unit_price}</div>
+                                 <div className="detail-line"><strong>Total línea:</strong> ${item.line_total}</div>
+                               </div>
+                             </li>
+                           ))}
+                         </ul>
+                       )}
+                     </div>
+                   )}
+                 </div>
 
-                <div className="order-actions">
-                  <button
-                    className="btn approve"
-                    onClick={() => updateStatus(order.id, 'aprobado')}
-                    disabled={updatingId === order.id || order.status === 'aprobado'}
-                  >
-                    {updatingId === order.id ? 'Procesando...' : 'Aprobar'}
-                  </button>
-                  <button
-                    className="btn reject"
-                    onClick={() => updateStatus(order.id, 'rechazado')}
-                    disabled={updatingId === order.id || order.status === 'rechazado'}
-                  >
-                    {updatingId === order.id ? 'Procesando...' : 'Rechazar'}
-                  </button>
-                  <button
-                    className="btn details"
-                    onClick={() => toggleDetails(order.id)}
-                    disabled={detailsLoadingId === order.id}
-                  >
-                    {openDetails[order.id] ? 'Ocultar detalles' : (detailsLoadingId === order.id ? 'Cargando...' : 'Ver detalles')}
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
-  );
-};
+                 <div className="order-actions">
+                   <button
+                     className="btn approve"
+                     onClick={() => updateStatus(order.id, 'aprobado')}
+                     disabled={updatingId === order.id || order.status === 'aprobado'}
+                   >
+                     {updatingId === order.id ? 'Procesando...' : 'Aprobar'}
+                   </button>
+                   <button
+                     className="btn reject"
+                     onClick={() => updateStatus(order.id, 'rechazado')}
+                     disabled={updatingId === order.id || order.status === 'rechazado'}
+                   >
+                     {updatingId === order.id ? 'Procesando...' : 'Rechazar'}
+                   </button>
+                   <button
+                     className="btn details"
+                     onClick={() => toggleDetails(order.id)}
+                     disabled={detailsLoadingId === order.id}
+                   >
+                     {openDetails[order.id] ? 'Ocultar detalles' : (detailsLoadingId === order.id ? 'Cargando...' : 'Ver detalles')}
+                   </button>
+                 </div>
+               </li>
+             );
+           })}
+         </ul>
+       )}
+     </div>
+   );
+ };
 
-export default OrdersSection;
+ export default OrdersSection;
