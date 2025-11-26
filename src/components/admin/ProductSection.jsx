@@ -1,104 +1,107 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import ProductForm from './ProductForm';
 import ProductItem from './ProductItem';
-import "./ProductSection.css";
 
-export default function ProductSection(props) {
-    const { admin } = props;
-    const { fetchProductos, agregarProducto, eliminarProducto, modificarProducto } = admin;
+const ProductSection = ({ admin }) => {
+  const { productos, fetchProductos, agregarProducto, eliminarProducto, modificarProducto } = admin;
+  const [accion, setAccion] = useState('listar');
+  const [query, setQuery] = useState('');
+  const [resultados, setResultados] = useState([]);
 
-    // estados para productos y búsqueda local
-    const [products, setProducts] = useState([]);       // lista mostrada (filtrada)
-    const [allProducts, setAllProducts] = useState([]); // copia completa para filtrado local
-    const [query, setQuery] = useState('');
-    const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (accion === 'listar') fetchProductos();
+  }, [accion, fetchProductos]);
 
-    const baseUrl = 'https://x8ki-letl-twmt.n7.xano.io/api:AZPo4EA2/product';
+  // helper: normaliza la lista de productos venga como array, { data: [...] } u objeto
+  const getListaProductos = () => {
+    if (!productos) return [];
+    if (Array.isArray(productos)) return productos;
+    if (Array.isArray(productos.data)) return productos.data;
+    if (typeof productos === 'object') return Object.values(productos);
+    return [];
+  };
 
-    useEffect(() => {
-        fetchAllProducts();
-    }, []);
+  // Mantener resultados sincronizados con productos cuando cambien
+  useEffect(() => {
+    setResultados(getListaProductos());
+  }, [productos]);
 
-    const fetchAllProducts = async () => {
-        setLoading(true);
-        try {
-            const res = await fetch(baseUrl);
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const data = await res.json();
-            setAllProducts(data || []);
-            setProducts(data || []);
-        } catch (err) {
-            console.error('No se pudo cargar la lista de productos:', err);
-            setAllProducts([]);
-            setProducts([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+  // Función para buscar productos por nombre (robusta ante diferentes shapes)
+  const buscarProductos = (q) => {
+    const term = (typeof q === 'string' ? q : query).trim().toLowerCase();
+    const lista = getListaProductos();
+    if (!term) {
+      setResultados(lista);
+      return lista;
+    }
+    const encontrados = lista.filter(p => {
+      const nombre = (p.nombre || p.name || p.title || p.titulo || '').toString().toLowerCase();
+      return nombre.includes(term);
+    });
+    setResultados(encontrados);
+    return encontrados;
+  };
 
-    // Filtrado local por nombre de producto (sin llamadas al servidor)
-    const searchByName = (name) => {
-        const q = (name || '').trim().toLowerCase();
-        if (!q) {
-            setProducts(allProducts);
+  return (
+    <section className="admin-section">
+      <h3>Productos</h3>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 18 }}>
+        <button className={`admin-btn-main${accion === 'agregar' ? ' active' : ''}`} onClick={() => setAccion('agregar')}>Agregar</button>
+        <button className={`admin-btn-main${accion === 'listar' ? ' active' : ''}`} onClick={() => setAccion('listar')}>Listar</button>
+      </div>
+
+      {accion === 'agregar' && (
+        <ProductForm onSubmit={async (payload) => {
+          // Si el hijo notifica que ya creó el producto:
+          if (payload && payload.action === 'created' && payload.product) {
+            // sólo refrescamos la lista y navegamos a listar (evita doble creación)
+            await fetchProductos();
+            setAccion('listar');
             return;
-        }
-        const filtered = allProducts.filter(p => {
-            const n = ((p.name || p.title || p.product_name) + '').toLowerCase();
-            return n.includes(q);
-        });
-        setProducts(filtered);
-    };
+          }
 
-    const handleSearchSubmit = (e) => {
-        e && e.preventDefault();
-        searchByName(query);
-    };
+          // Caso legacy: si el hijo envía directamente el producto creado (con id), refrescar también
+          if (payload && (payload.id || payload._id)) {
+            await fetchProductos();
+            setAccion('listar');
+            return;
+          }
 
-    const handleClear = () => {
-        setQuery('');
-        setProducts(allProducts);
-    };
+          // Fallback: si el hijo no creó el producto y manda datos para crear, usamos agregarProducto
+          const ok = await agregarProducto(payload);
+          if (ok) setAccion('listar');
+        }} />
+      )}
 
-    // handlers para mantener sincronía cuando ProductItem hace onDelete/onUpdate
-    const handleDelete = (id) => {
-        setProducts(prev => prev.filter(p => p.id !== id));
-        setAllProducts(prev => prev.filter(p => p.id !== id));
-    };
+      {accion === 'listar' && (
+        <>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+            <input
+              type="text"
+              placeholder="Buscar por nombre..."
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); buscarProductos(e.target.value); }}
+              onKeyDown={(e) => { if (e.key === 'Enter') buscarProductos(e.target.value || query); }}
+              style={{ flex: 1, padding: '6px 8px' }}
+            />
+            <button className="admin-btn-main" onClick={() => buscarProductos(query)}>Buscar</button>
+            <button className="admin-btn-secondary" onClick={() => { setQuery(''); buscarProductos(''); }}>Limpiar</button>
+          </div>
 
-    const handleUpdate = (updatedProduct) => {
-        setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-        setAllProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-    };
+          <ul className="admin-list">
+            {(resultados || []).map(p => (
+              <ProductItem
+                key={p.id || p._id}
+                product={p}
+                onDelete={() => eliminarProducto(p.id || p._id)}
+                onSave={(datos) => modificarProducto(p.id || p._id, datos)}
+              />
+            ))}
+          </ul>
+        </>
+      )}
+    </section>
+  );
+};
 
-    return (
-        <div className="product-section">
-            <form onSubmit={handleSearchSubmit} className="product-search-form" style={{ marginBottom: 12 }}>
-                <input
-                    type="text"
-                    placeholder="Buscar por nombre de producto..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    style={{ padding: 8, width: 320 }}
-                />
-                <button type="submit" disabled={loading} style={{ marginLeft: 8 }}>
-                    {loading ? 'Cargando...' : 'Buscar'}
-                </button>
-                <button type="button" onClick={handleClear} style={{ marginLeft: 8 }}>
-                    Limpiar
-                </button>
-            </form>
-
-            <div className="products-list">
-                {products.map(product => (
-                    <ProductItem
-                        key={product.id}
-                        product={product}
-                        onDelete={handleDelete}
-                        onUpdate={handleUpdate}
-                    />
-                ))}
-                {products.length === 0 && !loading && <div className="empty">No hay productos para mostrar.</div>}
-            </div>
-        </div>
-    );
-}
+export default ProductSection;
